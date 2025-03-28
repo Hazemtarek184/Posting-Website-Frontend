@@ -80,9 +80,7 @@ export default function Login() {
           </div>
 
           {message && <p style={{ textAlign: 'center', color: 'red' }}>{message}</p>}
-
-
-
+          
           <Button variant="contained" onClick={loginRequest}>Submit</Button>
 
         </div>

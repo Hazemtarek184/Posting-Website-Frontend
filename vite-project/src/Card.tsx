@@ -1,88 +1,84 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
+import { Avatar, Typography, Card, CardContent, CardMedia } from '@mui/material';
+import ProfileBackground from './Image/anonymous-avatars-grey-circles.png';
+import BackgroundImage from './Image/pexels-esan-2085998.jpg';
+// import im from './Image/mz3yj3apfq571.png';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import BackgroundImage from './Image/pexels-esan-2085998.jpg'
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme }) => ({
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-  variants: [
-    {
-      props: ({ expand }) => !expand,
-      style: {
-        transform: 'rotate(0deg)',
-      },
-    },
-    {
-      props: ({ expand }) => !!expand,
-      style: {
-        transform: 'rotate(180deg)',
-      },
-    },
-  ],
-}));
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface ICardData {
-  title: String,
-  content: String,
-  username: String,
+  id: string;
+  title: string;
+  content: string;
+  username: string;
+  date: string | Date;
 }
 
-export default function RecipeReviewCard(props: ICardData) {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+export default function PostCard(props: ICardData) {
+  const formatDate = (date: string | Date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   return (
-    <Card sx={{ maxWidth: 1000 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {/*add user photo*/}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={props.username}
-        subheader="September 14, 2016" //make the date right
-      />
-      <Typography variant="h6" sx={{ color: 'text.primary', marginLeft: 500, marginRight: 5, fontSize: 20 }} >
-        {props.content}
-      </Typography>
+    <Card
+      sx={{
+        width: 600,
+        height: 600,
+        margin: 'auto',
+        borderRadius: 2,
+        boxShadow: 3,
+        overflow: 'hidden', // Ensures content doesn't overflow
+        position: 'relative', // Helps with consistent sizing
+      }}
+    >
+      <CardContent
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          paddingBottom: 1
+        }}
+      >
+        <Avatar
+          src={ProfileBackground}
+          sx={{
+            width: 50,
+            height: 50
+          }}
+        />
+        <div>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {props.username}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {formatDate(props.date)}
+          </Typography>
+        </div>
+      </CardContent>
+
+      <CardContent sx={{ paddingTop: 0 }}>
+        <Typography variant="body1" color="text.primary">
+          {props.content}
+        </Typography>
+      </CardContent>
+
       <CardMedia
         component="img"
-        height="auto"
-        // style={{ marginLeft: 5,marginRight:100  }}
         image={BackgroundImage}
-      // alt="Paella dish"
+        alt="Post background"
+        sx={{
+          width: '100%',
+          height: 400, // Fixed height for the image area
+          objectFit: 'contain', // Ensures the entire image is visible while maintaining aspect ratio
+          objectPosition: 'center', // Centers the image
+        }}
       />
+
       <CardContent>
 
       </CardContent>
